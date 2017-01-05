@@ -1,0 +1,26 @@
+{
+    "name": "shadiakiki1986/blackscholes",
+    "require-dev": {
+        "jakub-onderka/php-parallel-lint": "^0.9.2",
+        "phpunit/phpunit": "^5.6"
+    },
+    "authors": [
+        {
+            "name": "Shadi Akiki",
+            "email": "shadiakiki1986@gmail.com"
+        }
+    ],
+    "autoload": {
+        "files": [
+            "src/BlackScholes.php",
+            "src/BlackScholesStatic.php"
+        ]
+    },
+    "scripts": {
+        "test": [
+            "parallel-lint . --exclude vendor",
+            "phpunit --verbose"
+        ]
+    }
+
+}
