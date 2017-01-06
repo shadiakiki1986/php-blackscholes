@@ -23,18 +23,10 @@ class BlackScholesTest extends \PHPUnit_Framework_TestCase
 
     public function testCallNotNegative()
     {
-      $strike = 470;
-      $interest = 0;
-      $timeToMaturity = 0;
-      $underlyingPrice = 460;
-      $volatility = 0;
-      $bs = new BlackScholes(
-        $underlyingPrice,
-        $strike,
-        $timeToMaturity,
-        $interest, 
-        $volatility
-      );
+      $bs = $this->quoraExample();
+      $bs->interest = 0;
+      $bs->timeToMaturity = 0;
+      $bs->volatility = 0;
 
       $this->assertEquals(-INF,$bs->d1());
       $this->assertEquals(0,$bs->Nd1());
@@ -45,10 +37,7 @@ class BlackScholesTest extends \PHPUnit_Framework_TestCase
       $this->assertEquals(0,$bs->call());
     }
 
-    // Call option price from [here](https://invento.quora.com/Advanced-Black-Scholes-calculation-with-a-real-example)
-    // Quora have a mistake in their d1 formula: time to maturity needs to be divided, not multiplied, or at least use parentheses
-    public function testExampleQuora()
-    {
+    private function quoraExample() {
       $strike = 470;
       $interest = 2/100;
       $timeToMaturity = 0.17;
@@ -61,6 +50,14 @@ class BlackScholesTest extends \PHPUnit_Framework_TestCase
         $interest, 
         $volatility
       );
+      return $bs;
+    }
+
+    // Call option price from [here](https://invento.quora.com/Advanced-Black-Scholes-calculation-with-a-real-example)
+    // Quora have a mistake in their d1 formula: time to maturity needs to be divided, not multiplied, or at least use parentheses
+    public function testExampleQuora()
+    {
+      $bs = $this->quoraExample();
 
       // they wrongly have 37 .. should be 40
       // $this->assertEquals(37,$bs);
@@ -69,14 +66,8 @@ class BlackScholesTest extends \PHPUnit_Framework_TestCase
       $this->assertEquals(40.1047,round($bs->call(),4));
       $this->assertEquals(0.0439,round($bs->d1(),4));
 
-      $volatility = 0.25;
-      $bs = new BlackScholes(
-        $underlyingPrice,
-        $strike,
-        $timeToMaturity,
-        $interest, 
-        $volatility
-      );
+      // change vol
+      $bs->volatility = 0.25;
       // they wrongly have 16.67
       //$this->assertEquals(16.67,$bs);
       //$this->assertEquals(0.9252,round($bs->Nd1(),4));
@@ -113,4 +104,13 @@ class BlackScholesTest extends \PHPUnit_Framework_TestCase
       $this->assertEquals(1.8394,round($bs->d1(),4));
 
     }
+
+    public function testPutCallParity()
+    {
+      $bs = $this->quoraExample();
+
+      $expected = $bs->call() - $bs->underlyingPrice + $bs->strike * exp(-1*$bs->interest*$bs->timeToMaturity);
+      $this->assertEquals($expected,$bs->put());
+    }
+
 }

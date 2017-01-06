@@ -56,16 +56,23 @@ class BlackScholes {
   }
 
 
-  public function Nd1() {
-    return self::cumnormdist($this->d1());
-  }
-
-  public function Nd2() {
-    return self::cumnormdist($this->d2());
-  }
+  public function Nd1() { return self::cumnormdist($this->d1()); }
+  public function Nd2() { return self::cumnormdist($this->d2()); }
+  public function Nmd1() { return self::cumnormdist(-1*$this->d1()); }
+  public function Nmd2() { return self::cumnormdist(-1*$this->d2()); }
 
   public function call() {
-    return $this->Nd1()*$this->underlyingPrice - $this->Nd2()*$this->strike*exp(-1*$this->interest*$this->timeToMaturity);
+    return $this->Nd1()*$this->underlyingPrice
+         - $this->Nd2()*$this->strike*exp(
+              -1*$this->interest*$this->timeToMaturity
+            );
+  }
+
+  public function put() {
+    return -1*$this->Nmd1()*$this->underlyingPrice
+         +$this->Nmd2()*$this->strike*exp(
+              -1*$this->interest*$this->timeToMaturity
+            );
   }
 
 }
