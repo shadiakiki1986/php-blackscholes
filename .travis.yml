@@ -3,3 +3,6 @@ language: php
 php: 7.0
 install: composer install
 script: composer test
+branches:
+  only:
+  - master
