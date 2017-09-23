@@ -4,7 +4,7 @@ Black-Scholes option pricing in php
 Based on [Black-Scholes in Multiple Languages]( http://cseweb.ucsd.edu/~goguen/courses/130/SayBlackScholes.html) and [wikipedia formula](https://en.wikipedia.org/wiki/Black%E2%80%93Scholes_model#Black.E2.80.93Scholes_formula)
 
 # Installation
-`composer require shadiakiki1986/php-blackscholes`
+`composer require shadiakiki1986/blackscholes`
 
 # Usage
 
@@ -18,11 +18,11 @@ $interest = 0.02;
 $timeToMaturity = 0.17;
 $underlyingPrice = 460;
 $volatility = 0.58;
-$bs = new \shadiakiki1986\BlackScholes::calculate(
+$bs = new \shadiakiki1986\BlackScholes(
   $underlyingPrice,
   $strike,
   $timeToMaturity,
-  $interest, 
+  $interest,
   $volatility
 );
 var_dump($bs->call());
@@ -37,7 +37,7 @@ $call = new \shadiakiki1986\BlackScholesStatic::calculate(
   $underlyingPrice,
   $strike,
   $timeToMaturity,
-  $interest, 
+  $interest,
   $volatility
 );
 var_dump($call);
