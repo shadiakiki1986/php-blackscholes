@@ -14,7 +14,8 @@
         "files": [
             "src/BlackScholes.php",
             "src/BlackScholesStatic.php"
-        ]
+            ],
+            "psr-0": { "": "lib/" }
     },
     "scripts": {
         "test": [
@@ -22,5 +23,4 @@
             "phpunit --verbose"
         ]
     }
-
 }

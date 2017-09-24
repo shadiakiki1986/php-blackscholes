@@ -37,7 +37,7 @@ $call = new \shadiakiki1986\BlackScholesStatic::calculate(
   $underlyingPrice,
   $strike,
   $timeToMaturity,
-  $interest, 
+  $interest,
   $volatility
 );
 var_dump($call);
